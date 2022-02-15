@@ -9,15 +9,15 @@ const daysBack = 15;
 
 (async function getSummary () {
   const data = await (await fetch(api)).json();
-  const last2WeeksCummulatives = data.slice(-daysBack).map(({Confirmed}) => Confirmed);
+  const cummulatedPeriod = data.slice(-daysBack).map(({Confirmed}) => Confirmed);
 
   const dailyCases = [];
   const today = new Date()
   let startingDate = new Date(today);
   startingDate.setDate(startingDate.getDate() - daysBack + 1);
 
-  for (let i = 0; i < last2WeeksCummulatives.length - 1; i++ ) {
-  let newCases = last2WeeksCummulatives[i+1] - last2WeeksCummulatives[i];
+  for (let i = 0; i < cummulatedPeriod.length - 1; i++ ) {
+  let newCases = cummulatedPeriod[i+1] - cummulatedPeriod[i];
 
     let dayBefore = new Date(startingDate);
     dayBefore.setDate(dayBefore.getDate() + i);
@@ -28,10 +28,14 @@ const daysBack = 15;
   dailyCases.push(object);
 
   }
-  console.log(country, 'daily cases', dailyCases);
 
   document.querySelector('.country').innerHTML = country;
   document.querySelector('.countries').innerHTML = JSON.stringify(dailyCases);
+
+
+  const casesArray = dailyCases.map(({newCases}) => newCases);
+  console.log(casesArray);
+  document.querySelector('.today').innerHTML = JSON.stringify(casesArray[casesArray.length - 1]);
 })();
 
 getCountry = () => {
