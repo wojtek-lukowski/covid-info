@@ -13,20 +13,16 @@ document.querySelector('#number-of-days').value = daysBack;
 const countryModule = (async function getCountry () {
   document.querySelector('.loading').style.display = "block";
   const data = await (await fetch(api)).json();
-  console.log('data', data);
+  // console.log('data', data);
   // console.log('premium', data);
   const cummulatedPeriod = data.slice(-daysBack).map(({Confirmed}) => Confirmed);
   document.querySelector('.loading').style.display = "none";
 
 //creating totals data for charts
   const totals = data.map(({Date, Confirmed}) => ({Date, Confirmed}));
-
-  console.log('totals', totals);
-
   const totalsHeader = ['Date', 'Total cases'];
   const totalsArray = totals.map((object) => Object.values(object));
   totalsArray.unshift(totalsHeader);
-  console.log('totals array', totalsArray);
 
    //goggle charts -  totals
 google.charts.load('current', {'packages':['corechart']});
@@ -67,13 +63,15 @@ function drawTotalsChart() {
   }
   const header = ['Date', 'Daily Cases'];
   dailyCases.unshift(header);
-  console.log(dailyCases);
-
   document.querySelector('.country').innerHTML = country;
   // document.querySelector('.country-data').innerHTML = JSON.stringify(dailyCases);
 
-  const casesArray = dailyCases.map(({newCases}) => newCases);
-  document.querySelector('.today').innerHTML = JSON.stringify(casesArray[casesArray.length - 1]);
+  const lastEntry = dailyCases[dailyCases.length-1];
+  const lastNumber = lastEntry[1];
+  const lastDate = lastEntry[0];
+  
+  document.querySelector('.last-date').innerHTML = lastDate;
+  document.querySelector('.last-number').innerHTML = lastNumber;
 
   //goggle charts - daily cases
 google.charts.load('current', {'packages':['corechart']});
@@ -103,14 +101,13 @@ getCountry = () => {
   return countryInput;
 }
 
-
 // getting all the countries
 (async function getCountries () {
   const data = await (await fetch(countriesApi)).json();
   const countriesList = data.map(({Country}) => Country);
   const countriesSlugs = data.map(({Slug}) => Slug);
   const countriesAndSlugs = data.map(({Country, Slug }) => ({Country, Slug}));
-  document.querySelector('.countries-list').innerHTML = JSON.stringify(countriesList);
+  // document.querySelector('.countries-list').innerHTML = JSON.stringify(countriesList);
   // console.log(countriesAndSlugs);
   // console.log(countriesList);
   // console.log(countriesSlugs);
