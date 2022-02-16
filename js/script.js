@@ -13,11 +13,40 @@ document.querySelector('#number-of-days').value = daysBack;
 const countryModule = (async function getCountry () {
   document.querySelector('.loading').style.display = "block";
   const data = await (await fetch(api)).json();
-  // console.log('data', data);
+  console.log('data', data);
   // console.log('premium', data);
   const cummulatedPeriod = data.slice(-daysBack).map(({Confirmed}) => Confirmed);
   document.querySelector('.loading').style.display = "none";
 
+//creating totals data for charts
+  const totals = data.map(({Date, Confirmed}) => ({Date, Confirmed}));
+
+  console.log('totals', totals);
+
+  const totalsHeader = ['Date', 'Total cases'];
+  const totalsArray = totals.map((object) => Object.values(object));
+  totalsArray.unshift(totalsHeader);
+  console.log('totals array', totalsArray);
+
+   //goggle charts -  totals
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawTotalsChart);
+
+function drawTotalsChart() {
+  var data = google.visualization.arrayToDataTable(
+    totalsArray
+  );
+
+  var options = {
+    title: `${country} - total cases`,
+    curveType: 'function',
+    legend: { position: 'bottom' }
+  };
+
+  var chart = new google.visualization.LineChart(document.getElementById('country-totals'));
+
+  chart.draw(data, options);
+}
 
   // creating an array with object where an object contain date and daily new cases. The daily new cases
   // are calculated by sustracting the day before from the total (cummulative from day 1) value of
@@ -41,22 +70,22 @@ const countryModule = (async function getCountry () {
   console.log(dailyCases);
 
   document.querySelector('.country').innerHTML = country;
-  document.querySelector('.country-data').innerHTML = JSON.stringify(dailyCases);
+  // document.querySelector('.country-data').innerHTML = JSON.stringify(dailyCases);
 
   const casesArray = dailyCases.map(({newCases}) => newCases);
   document.querySelector('.today').innerHTML = JSON.stringify(casesArray[casesArray.length - 1]);
 
-  //goggle charts
+  //goggle charts - daily cases
 google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawDailyChart);
 
-function drawChart() {
+function drawDailyChart() {
   var data = google.visualization.arrayToDataTable(
     dailyCases
   );
 
   var options = {
-    title: country,
+    title: `${country} - daily cases`,
     curveType: 'function',
     legend: { position: 'bottom' }
   };
@@ -73,11 +102,6 @@ getCountry = () => {
   console.log('new country', countryInput);
   return countryInput;
 }
-
-
-
-
-
 
 
 // getting all the countries
