@@ -1,17 +1,19 @@
 const countriesApi = 'https://api.covid19api.com/countries';
 
+// const country = 'germany';
 const country = 'germany';
 
 const api = `https://api.covid19api.com/total/country/${country}`;
 // const api = `https://api.covid19api.com/premium/country/south-africa`;
 
 //number of days will be lower by 1
-const daysBack = 31;
+const daysBack = 30;
+document.querySelector('#number-of-days').value = daysBack;
 
-(async function getSummary () {
+const countryModule = (async function getCountry () {
   document.querySelector('.loading').style.display = "block";
   const data = await (await fetch(api)).json();
-  console.log('data', data);
+  // console.log('data', data);
   // console.log('premium', data);
   const cummulatedPeriod = data.slice(-daysBack).map(({Confirmed}) => Confirmed);
   document.querySelector('.loading').style.display = "none";
@@ -30,15 +32,40 @@ const daysBack = 31;
     let dayBefore = new Date(startingDate);
     dayBefore.setDate(dayBefore.getDate() + i);
     let day = dayBefore.toLocaleString();
-    let object = {day, newCases}
-    dailyCases.push(object);
+    // let day = dayBefore.getTime();
+    let array = [day, newCases]
+    dailyCases.push(array);
   }
+  const header = ['Date', 'Daily Cases'];
+  dailyCases.unshift(header);
+  console.log(dailyCases);
 
   document.querySelector('.country').innerHTML = country;
   document.querySelector('.country-data').innerHTML = JSON.stringify(dailyCases);
 
   const casesArray = dailyCases.map(({newCases}) => newCases);
   document.querySelector('.today').innerHTML = JSON.stringify(casesArray[casesArray.length - 1]);
+
+  //goggle charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  var data = google.visualization.arrayToDataTable(
+    dailyCases
+  );
+
+  var options = {
+    title: country,
+    curveType: 'function',
+    legend: { position: 'bottom' }
+  };
+
+  var chart = new google.visualization.LineChart(document.getElementById('country-chart'));
+
+  chart.draw(data, options);
+}
+
 })();
 
 getCountry = () => {
@@ -46,6 +73,12 @@ getCountry = () => {
   console.log('new country', countryInput);
   return countryInput;
 }
+
+
+
+
+
+
 
 // getting all the countries
 (async function getCountries () {
@@ -73,3 +106,4 @@ getCountry = () => {
   // const countriesData = countriesList.map((country => console.log(country)));
   // console.log(countriesData);
 })();
+
