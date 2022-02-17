@@ -1,6 +1,3 @@
-const countriesApi = 'https://api.covid19api.com/countries';
-
-
 // navigator.geolocation.getCurrentPosition(success);
 
 // function success (pos) {
@@ -8,13 +5,11 @@ const countriesApi = 'https://api.covid19api.com/countries';
 //   console.log('current position: ', crd.latitude, crd.longitude);
 // }
 
-// const country = 'germany';
 const country = 'germany';
 const daysBack = 100;
 
 //number of days shown will be lower by 1
 document.querySelector('#number-of-days').value = daysBack;
-// document.querySelector('#country').value = country;
 
 async function getCountry(country, daysBack) {
   document.querySelector('.loading').style.display = "block";
@@ -22,7 +17,36 @@ async function getCountry(country, daysBack) {
   const data = await (await fetch(api)).json();
   // console.log('data', data);
   const cummulatedPeriod = data.slice(-daysBack).map(({Confirmed}) => Confirmed);
-  document.querySelector('.loading').style.display = "none";
+  // document.querySelector('.loading').style.display = "none";
+
+  // creating an array with object where an object contain date and daily new cases. The daily new cases
+  // are calculated by sustracting the day before from the total (cummulative from day 1) value of
+  // the previous day.
+  const dailyCases = [];
+  const today = new Date()
+  let startingDate = new Date(today);
+  startingDate.setDate(startingDate.getDate() - daysBack + 1);
+
+  for (let i = 0; i < cummulatedPeriod.length - 1; i++ ) {
+    let newCases = cummulatedPeriod[i+1] - cummulatedPeriod[i];
+    let dayBefore = new Date(startingDate);
+    dayBefore.setDate(dayBefore.getDate() + i);
+    let day = dayBefore.toLocaleString();
+    // let day = dayBefore.getTime();
+    let array = [day, newCases]
+    dailyCases.push(array);
+  }
+  const header = ['Date', 'Daily Cases'];
+  dailyCases.unshift(header);
+  document.querySelector('.country').innerHTML = country;
+  // document.querySelector('.country-data').innerHTML = JSON.stringify(dailyCases);
+
+  const lastEntry = dailyCases[dailyCases.length-1];
+  const lastNumber = lastEntry[1];
+  const lastDate = lastEntry[0];
+  
+  document.querySelector('.last-date').innerHTML = lastDate;
+  document.querySelector('.last-number').innerHTML = lastNumber;
 
 //creating totals data for charts
 
@@ -38,7 +62,7 @@ async function getCountry(country, daysBack) {
   const totalDeathsArray = totalDeaths.map((object) => Object.values(object));
   totalDeathsArray.unshift(totalDeathsHeader);
 
-   //goggle charts -  total cases
+//goggle charts -  total cases
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawTotalsChart);
 
@@ -78,36 +102,7 @@ function drawTotalsChart() {
    chart.draw(data, options);
  }
 
-  // creating an array with object where an object contain date and daily new cases. The daily new cases
-  // are calculated by sustracting the day before from the total (cummulative from day 1) value of
-  // the previous day.
-  const dailyCases = [];
-  const today = new Date()
-  let startingDate = new Date(today);
-  startingDate.setDate(startingDate.getDate() - daysBack + 1);
-
-  for (let i = 0; i < cummulatedPeriod.length - 1; i++ ) {
-    let newCases = cummulatedPeriod[i+1] - cummulatedPeriod[i];
-    let dayBefore = new Date(startingDate);
-    dayBefore.setDate(dayBefore.getDate() + i);
-    let day = dayBefore.toLocaleString();
-    // let day = dayBefore.getTime();
-    let array = [day, newCases]
-    dailyCases.push(array);
-  }
-  const header = ['Date', 'Daily Cases'];
-  dailyCases.unshift(header);
-  document.querySelector('.country').innerHTML = country;
-  // document.querySelector('.country-data').innerHTML = JSON.stringify(dailyCases);
-
-  const lastEntry = dailyCases[dailyCases.length-1];
-  const lastNumber = lastEntry[1];
-  const lastDate = lastEntry[0];
-  
-  document.querySelector('.last-date').innerHTML = lastDate;
-  document.querySelector('.last-number').innerHTML = lastNumber;
-
-  //goggle charts - daily cases
+//goggle charts - daily cases
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawDailyChart);
 
@@ -126,14 +121,16 @@ function drawDailyChart() {
 
   chart.draw(data, options);
 }
+
+document.querySelector('.loading').style.display = "none";
 };
 
-getCountry(country, daysBack);
+getCountry(country);
 
 setCountry = () => {
   let countryInput = document.getElementById('country').value;
   console.log('new country', countryInput);
-  getCountry(countryInput);
+  getCountry(countryInput, daysBack);
 }
 
 setNumberOfDays = () => {
