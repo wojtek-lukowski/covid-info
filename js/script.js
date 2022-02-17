@@ -7,6 +7,7 @@
 
 const country = 'germany';
 const daysBack = 100;
+// document.querySelector('.loading').style.display = "none";
 
 //number of days shown will be lower by 1
 document.querySelector('#number-of-days').value = daysBack;
@@ -39,7 +40,6 @@ async function getCountry(country, daysBack) {
   const header = ['Date', 'Daily Cases'];
   dailyCases.unshift(header);
   document.querySelector('.country').innerHTML = country;
-  // document.querySelector('.country-data').innerHTML = JSON.stringify(dailyCases);
 
   const lastEntry = dailyCases[dailyCases.length-1];
   const lastNumber = lastEntry[1];
@@ -125,17 +125,25 @@ function drawDailyChart() {
 document.querySelector('.loading').style.display = "none";
 };
 
-getCountry(country);
+getCountry(country, daysBack);
 
-setCountry = () => {
+// setCountry = () => {
+//   let countryInput = document.getElementById('country').value;
+//   console.log('new country', countryInput);
+//   getCountry(countryInput, daysBack);
+// }
+
+setState = () => {
   let countryInput = document.getElementById('country').value;
-  console.log('new country', countryInput);
-  getCountry(countryInput, daysBack);
-}
-
-setNumberOfDays = () => {
-  let newNumber = document.getElementById('number-of-days').value;
-  getCountry(country, newNumber);
+  if (!countryInput) {
+    countryInput = country
+  };
+  let numberInput = document.getElementById('number-of-days').value;
+  if (!numberInput) {
+    numberInput = daysBack
+  };
+  console.log(countryInput, numberInput);
+  getCountry(countryInput, numberInput);
 }
 
 // getting all the countries
