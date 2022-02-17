@@ -1,30 +1,44 @@
 const countriesApi = 'https://api.covid19api.com/countries';
 
+
+// navigator.geolocation.getCurrentPosition(success);
+
+// function success (pos) {
+//   const crd = pos.coords;
+//   console.log('current position: ', crd.latitude, crd.longitude);
+// }
+
 // const country = 'germany';
 const country = 'germany';
+const daysBack = 100;
 
-const api = `https://api.covid19api.com/total/country/${country}`;
-// const api = `https://api.covid19api.com/premium/country/south-africa`;
-
-//number of days will be lower by 1
-const daysBack = 30;
+//number of days shown will be lower by 1
 document.querySelector('#number-of-days').value = daysBack;
+// document.querySelector('#country').value = country;
 
-const countryModule = (async function getCountry () {
+async function getCountry(country, daysBack) {
   document.querySelector('.loading').style.display = "block";
+  const api = `https://api.covid19api.com/total/country/${country}`;
   const data = await (await fetch(api)).json();
   // console.log('data', data);
-  // console.log('premium', data);
   const cummulatedPeriod = data.slice(-daysBack).map(({Confirmed}) => Confirmed);
   document.querySelector('.loading').style.display = "none";
 
 //creating totals data for charts
+
+//total cases
   const totals = data.map(({Date, Confirmed}) => ({Date, Confirmed}));
   const totalsHeader = ['Date', 'Total cases'];
   const totalsArray = totals.map((object) => Object.values(object));
   totalsArray.unshift(totalsHeader);
 
-   //goggle charts -  totals
+//total deaths
+  const totalDeaths = data.map(({Date, Deaths}) => ({Date, Deaths}));
+  const totalDeathsHeader = ['Date', 'Total deaths'];
+  const totalDeathsArray = totalDeaths.map((object) => Object.values(object));
+  totalDeathsArray.unshift(totalDeathsHeader);
+
+   //goggle charts -  total cases
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawTotalsChart);
 
@@ -43,6 +57,26 @@ function drawTotalsChart() {
 
   chart.draw(data, options);
 }
+
+ //goggle charts -  total deaths
+ google.charts.load('current', {'packages':['corechart']});
+ google.charts.setOnLoadCallback(drawTotalDeathsChart);
+ 
+ function drawTotalDeathsChart() {
+   var data = google.visualization.arrayToDataTable(
+     totalDeathsArray
+   );
+ 
+   var options = {
+     title: `${country} - total deaths`,
+     curveType: 'function',
+     legend: { position: 'bottom' }
+   };
+ 
+   var chart = new google.visualization.LineChart(document.getElementById('country-total-deaths'));
+ 
+   chart.draw(data, options);
+ }
 
   // creating an array with object where an object contain date and daily new cases. The daily new cases
   // are calculated by sustracting the day before from the total (cummulative from day 1) value of
@@ -92,28 +126,40 @@ function drawDailyChart() {
 
   chart.draw(data, options);
 }
+};
 
-})();
+getCountry(country, daysBack);
 
-getCountry = () => {
+setCountry = () => {
   let countryInput = document.getElementById('country').value;
   console.log('new country', countryInput);
-  return countryInput;
+  getCountry(countryInput);
+}
+
+setNumberOfDays = () => {
+  let newNumber = document.getElementById('number-of-days').value;
+  getCountry(country, newNumber);
 }
 
 // getting all the countries
 (async function getCountries () {
-  const data = await (await fetch(countriesApi)).json();
-  const countriesList = data.map(({Country}) => Country);
-  const countriesSlugs = data.map(({Slug}) => Slug);
-  const countriesAndSlugs = data.map(({Country, Slug }) => ({Country, Slug}));
+  // const summaryApi = 'https://api.covid19api.com/summary';
+  // const data = await (await fetch(summaryApi)).json();
+  // console.log(data);
+  // document.querySelector('.summary').innerHTML = JSON.stringify(data);
+
+
+
+  // const countriesList = data.map(({Country}) => Country);
+  // const countriesSlugs = data.map(({Slug}) => Slug);
+  // const countriesAndSlugs = data.map(({Country, Slug }) => ({Country, Slug}));
   // document.querySelector('.countries-list').innerHTML = JSON.stringify(countriesList);
   // console.log(countriesAndSlugs);
   // console.log(countriesList);
   // console.log(countriesSlugs);
 
   // const countriesToGet = countriesSlugs.splice(-5);
-  const countriesToGet = ['germany', 'poland', 'united-kingdom', 'italy', 'spain', 'france', 'sweden'];
+  // const countriesToGet = ['germany', 'poland', 'united-kingdom', 'italy', 'spain', 'france', 'sweden'];
   // console.log('shortened list', countriesToGet);
 
   // const countriesData = countriesList.map((country => await fetch(`https://api.covid19api.com/total/country/${country}`).json()));
@@ -127,4 +173,9 @@ getCountry = () => {
   // const countriesData = countriesList.map((country => console.log(country)));
   // console.log(countriesData);
 })();
+
+//current year in the footer
+const date = new Date();
+const currentYear = date.getFullYear(); 
+document.getElementById("year").innerHTML = currentYear;
 
