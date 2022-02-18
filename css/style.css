@@ -13,6 +13,7 @@ body {
   animation-name: loading;
   animation-duration: 2s;
   animation-iteration-count: infinite;
+  opacity: .5;
 }
 
 @keyframes loading {

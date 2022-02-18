@@ -16,7 +16,9 @@ async function getCountry(country, daysBack) {
   document.querySelector('.loading').style.display = "block";
   const api = `https://api.covid19api.com/total/country/${country}`;
   const data = await (await fetch(api)).json();
-  // console.log('data', data);
+  console.groupCollapsed('data');
+  console.log('data', data);
+  console.groupEnd('data');
   const cummulatedPeriod = data.slice(-daysBack).map(({Confirmed}) => Confirmed);
   // document.querySelector('.loading').style.display = "none";
 
