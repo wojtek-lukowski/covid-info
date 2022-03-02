@@ -159,10 +159,10 @@ async function getCountriesList () {
   const countriesList = data.map(({Slug}) => Slug).sort();
 
   changeCountry = (e) => {
-    // const newCountry = e.target.getElementsByTagName('li').innerHTML;
-    const newCountry = e.target.getElementsByTagName('li');
+    const newCountry = e.target.innerText;
+    const test = document.querySelector('.test').innerText;
     console.log('changing country to', newCountry);
-    // getCountry(newCountry, daysBack)
+    getCountry(newCountry, daysBack)
   };
 
   // changeCountry = () => {
