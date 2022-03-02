@@ -16,9 +16,9 @@ async function getCountry(country, daysBack) {
   document.querySelector('.loading').style.display = "block";
   const api = `https://api.covid19api.com/total/country/${country}`;
   const data = await (await fetch(api)).json();
-  console.groupCollapsed('data');
-  console.log('data', data);
-  console.groupEnd('data');
+  // console.groupCollapsed('data');
+  // console.log('data', data, typeof(data));
+  // console.groupEnd('data');
   const cummulatedPeriod = data.slice(-daysBack).map(({Confirmed}) => Confirmed);
   // document.querySelector('.loading').style.display = "none";
 
@@ -128,6 +128,7 @@ document.querySelector('.loading').style.display = "none";
 };
 
 getCountry(country, daysBack);
+getCountriesList();
 
 // setCountry = () => {
 //   let countryInput = document.getElementById('country').value;
@@ -148,17 +149,50 @@ setState = () => {
   getCountry(countryInput, numberInput);
 }
 
+
+
 // getting all the countries
-(async function getCountries () {
-  // const summaryApi = 'https://api.covid19api.com/summary';
-  // const data = await (await fetch(summaryApi)).json();
-  // console.log(data);
+async function getCountriesList () {
+  const summaryApi = 'https://api.covid19api.com/countries';
+  const data = await (await fetch(summaryApi)).json();
+  // console.log('countries', data, data.length);
+  const countriesList = data.map(({Slug}) => Slug).sort();
+
+  changeCountry = (e) => {
+    // const newCountry = e.target.getElementsByTagName('li').innerHTML;
+    const newCountry = e.target.getElementsByTagName('li');
+    console.log('changing country to', newCountry);
+    // getCountry(newCountry, daysBack)
+  };
+
+  // changeCountry = () => {
+  //   // const newCountry = e.target.getElementsByTagName('li').innerHTML;
+  //   const newCountry = document.getElementsByTagName('li');
+  //   console.log('changing country to', newCountry);
+  //   // getCountry(newCountry, daysBack)
+  // };
+
+    const list = document.querySelector('.countries-list');
+  
+    countriesList.forEach(country => {
+    const countryName = document.createElement('li');
+    countryName.innerHTML = country;
+    list.appendChild(countryName);
+    // countryName.addEventListener('click', console.log(countryName.innerHTML, 'clicked'));
+    countryName.addEventListener('click', changeCountry);
+  });
+
+
+
+
+
+
+
+  
   // document.querySelector('.summary').innerHTML = JSON.stringify(data);
 
 
 
-  // const countriesList = data.map(({Country}) => Country);
-  // const countriesSlugs = data.map(({Slug}) => Slug);
   // const countriesAndSlugs = data.map(({Country, Slug }) => ({Country, Slug}));
   // document.querySelector('.countries-list').innerHTML = JSON.stringify(countriesList);
   // console.log(countriesAndSlugs);
@@ -179,7 +213,7 @@ setState = () => {
     
   // const countriesData = countriesList.map((country => console.log(country)));
   // console.log(countriesData);
-})();
+};
 
 //current year in the footer
 const date = new Date();

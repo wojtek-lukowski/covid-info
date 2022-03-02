@@ -16,6 +16,20 @@ body {
   opacity: .5;
 }
 
+ul {
+  list-style: none;
+}
+
+li {
+  display: inline;
+  margin-right: 10px;
+}
+
+li:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 @keyframes loading {
   0% {transform: rotate(0deg)}
   100% {transform: rotate(360deg)}
