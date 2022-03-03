@@ -185,7 +185,7 @@ async function getCountriesList () {
   
   updateList = () => {
     let filteredList = countriesList;
-    const newInput = document.querySelector('.country-input').value;
+    const newInput = document.querySelector('.country-input').value.toLowerCase();
     // console.log('updating list', newInput);
     
     document.querySelector('ul').innerHTML = '';
