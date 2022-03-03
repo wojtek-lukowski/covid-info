@@ -189,6 +189,7 @@ async function getCountriesList () {
     // console.log('updating list', newInput);
     
     document.querySelector('ul').innerHTML = '';
+    // document.querySelector('.countries-list').style.display = 'block';
     
     filteredList = countriesList.filter(country => country.includes(newInput));
     

@@ -17,17 +17,27 @@ body {
 }
 
 ul {
+  position: absolute;
+  background-color: white;
   list-style: none;
+  max-height: 200px;
+  width: 200px;
+  margin-top: 0;
+  padding: 0 24px 8px;
+  overflow-y: scroll;
+  border: 1px solid black;
+  border-top: none;
 }
 
 li {
-  display: inline;
+  /* display: inline; */
   margin-right: 10px;
 }
 
 li:hover {
-  text-decoration: underline;
   cursor: pointer;
+  color: white;
+  background-color: black;
 }
 
 .countries-list {
