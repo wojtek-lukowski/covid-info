@@ -20,7 +20,6 @@ async function getCountry(country, daysBack) {
   // console.log('data', data, typeof(data));
   // console.groupEnd('data');
   const cummulatedPeriod = data.slice(-daysBack).map(({Confirmed}) => Confirmed);
-  // document.querySelector('.loading').style.display = "none";
 
   // creating an array with object where an object contain date and daily new cases. The daily new cases
   // are calculated by sustracting the day before from the total (cummulative from day 1) value of
@@ -151,7 +150,7 @@ setState = () => {
 
 
 
-// getting all the countries
+// getting all the countries and selecting a new one
 async function getCountriesList () {
   const summaryApi = 'https://api.covid19api.com/countries';
   const data = await (await fetch(summaryApi)).json();
@@ -160,7 +159,6 @@ async function getCountriesList () {
 
   changeCountry = (e) => {
     const newCountry = e.target.innerText;
-    const test = document.querySelector('.test').innerText;
     console.log('changing country to', newCountry);
     getCountry(newCountry, daysBack)
   };
