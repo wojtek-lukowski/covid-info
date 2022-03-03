@@ -159,6 +159,7 @@ async function getCountriesList () {
   let countriesList = data.map(({Slug}) => Slug).sort();
 
   changeCountry = (e) => {
+    document.querySelector('.countries-list').style.display = 'none';
     const newCountry = e.target.innerText;
     console.log('changing country to', newCountry);
     // document.getElementById('country').innerHTML = newCountry;
@@ -185,20 +186,19 @@ async function getCountriesList () {
     let filteredList = countriesList;
     const newInput = document.querySelector('.country-input').value;
     // console.log('updating list', newInput);
-
+    
     document.querySelector('ul').innerHTML = '';
-
+    
     filteredList = countriesList.filter(country => country.includes(newInput));
-
+    
     filteredList.forEach(country => {
       const filteredCountry = document.createElement('li');
       filteredCountry.innerHTML = country
       list.appendChild(filteredCountry);
       filteredCountry.addEventListener('click', changeCountry);
     })
-
-    console.log('current list', filteredList);
     
+    console.log('current list', filteredList);    
     // document.querySelector('.countries-list').innerText = filteredList;
   }
 
