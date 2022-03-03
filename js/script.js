@@ -183,10 +183,6 @@ async function getCountriesList () {
     document.querySelector('.countries-list').style.display = 'block';
   }
   
-  // hideList = () => {
-  //   document.querySelector('.countries-list').style.display = 'none';
-  // }
-  
   updateList = () => {
     let filteredList = countriesList;
     const newInput = document.querySelector('.country-input').value.toLowerCase();
@@ -208,42 +204,21 @@ async function getCountriesList () {
     // document.querySelector('.countries-list').innerText = filteredList;
   }
 
+  // hideList = () => {
+  //   setTimeout(
+  //     document.querySelector('.countries-list').style.display = 'none', 5000
+  //     // console.log('delay'), 5000
+  //   );
+  // }
+  
   document.querySelector('.country-input').addEventListener('focus', showCountriesList);
   document.querySelector('.country-input').addEventListener('input', updateList);
-  // document.querySelector('.country-input').addEventListener('blur', hideList);
-
-
-
-
-
-
-
-
+  window.addEventListener('keydown', function(event){
+    if(event.key === 'Escape'){
+      document.querySelector('.countries-list').style.display = 'none'
+    }
+  });
   
-  // document.querySelector('.summary').innerHTML = JSON.stringify(data);
-
-
-
-  // const countriesAndSlugs = data.map(({Country, Slug }) => ({Country, Slug}));
-  // document.querySelector('.countries-list').innerHTML = JSON.stringify(countriesList);
-  // console.log(countriesAndSlugs);
-  // console.log(countriesList);
-  // console.log(countriesSlugs);
-
-  // const countriesToGet = countriesSlugs.splice(-5);
-  // const countriesToGet = ['germany', 'poland', 'united-kingdom', 'italy', 'spain', 'france', 'sweden'];
-  // console.log('shortened list', countriesToGet);
-
-  // const countriesData = countriesList.map((country => await fetch(`https://api.covid19api.com/total/country/${country}`).json()));
-  // const countriesData = countriesToGet.map((country => getCountryData(country)));
-
-  // async function getCountryData (country) {
-  //  const countryLast = await (await fetch('https://api.covid19api.com/total/country/' + country)).json();
-  //   console.log(countryLast);
-  // }
-    
-  // const countriesData = countriesList.map((country => console.log(country)));
-  // console.log(countriesData);
 };
 
 //current year in the footer
