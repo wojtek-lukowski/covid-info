@@ -6,8 +6,8 @@
 // }
 
 const country = 'germany';
+localStorage.setItem('country', JSON.stringify(country));
 const daysBack = 100;
-// document.querySelector('.loading').style.display = "none";
 
 //number of days shown will be lower by 1
 document.querySelector('#number-of-days').value = daysBack;
@@ -129,14 +129,11 @@ document.querySelector('.loading').style.display = "none";
 getCountry(country, daysBack);
 getCountriesList();
 
-// setCountry = () => {
-//   let countryInput = document.getElementById('country').value;
-//   console.log('new country', countryInput);
-//   getCountry(countryInput, daysBack);
-// }
 
 setState = () => {
-  let countryInput = document.getElementById('country').value;
+  // let countryInput = document.getElementById('country').value;
+  let countryInput = JSON.parse(localStorage.getItem('country'));
+  console.log('country from local storage', country);
   if (!countryInput) {
     countryInput = country
   };
@@ -148,8 +145,6 @@ setState = () => {
   getCountry(countryInput, numberInput);
 }
 
-
-
 // getting all the countries and selecting a new one
 async function getCountriesList () {
   const summaryApi = 'https://api.covid19api.com/countries';
@@ -160,6 +155,9 @@ async function getCountriesList () {
   changeCountry = (e) => {
     const newCountry = e.target.innerText;
     console.log('changing country to', newCountry);
+    // document.getElementById('country').innerHTML = newCountry;
+    localStorage.setItem('country', JSON.stringify(newCountry));
+    console.log('seeting in storage', newCountry);
     getCountry(newCountry, daysBack)
   };
 
