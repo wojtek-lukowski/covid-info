@@ -179,6 +179,7 @@ async function getCountriesList () {
   });
   
   showCountriesList = () => {
+    document.querySelector('.country-input').value = null;
     document.querySelector('.countries-list').style.display = 'block';
   }
   
