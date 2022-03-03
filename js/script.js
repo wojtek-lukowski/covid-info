@@ -155,20 +155,13 @@ async function getCountriesList () {
   const summaryApi = 'https://api.covid19api.com/countries';
   const data = await (await fetch(summaryApi)).json();
   // console.log('countries', data, data.length);
-  const countriesList = data.map(({Slug}) => Slug).sort();
+  let countriesList = data.map(({Slug}) => Slug).sort();
 
   changeCountry = (e) => {
     const newCountry = e.target.innerText;
     console.log('changing country to', newCountry);
     getCountry(newCountry, daysBack)
   };
-
-  // changeCountry = () => {
-  //   // const newCountry = e.target.getElementsByTagName('li').innerHTML;
-  //   const newCountry = document.getElementsByTagName('li');
-  //   console.log('changing country to', newCountry);
-  //   // getCountry(newCountry, daysBack)
-  // };
 
     const list = document.querySelector('.countries-list');
   
@@ -179,6 +172,35 @@ async function getCountriesList () {
     // countryName.addEventListener('click', console.log(countryName.innerHTML, 'clicked'));
     countryName.addEventListener('click', changeCountry);
   });
+  
+  showCountriesList = () => {
+    document.querySelector('.countries-list').style.display = 'block';
+  }
+  
+  updateList = () => {
+    let filteredList = countriesList;
+    const newInput = document.querySelector('.country-input').value;
+    // console.log('updating list', newInput);
+
+    document.querySelector('ul').innerHTML = '';
+
+    filteredList = countriesList.filter(country => country.includes(newInput));
+
+    filteredList.forEach(country => {
+      const filteredCountry = document.createElement('li');
+      filteredCountry.innerHTML = country
+      list.appendChild(filteredCountry);
+      filteredCountry.addEventListener('click', changeCountry);
+    })
+
+    console.log('current list', filteredList);
+    
+    // document.querySelector('.countries-list').innerText = filteredList;
+  }
+
+  document.querySelector('.country-input').addEventListener('focus', showCountriesList);
+  document.querySelector('.country-input').addEventListener('input', updateList);
+
 
 
 
