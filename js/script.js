@@ -183,6 +183,10 @@ async function getCountriesList () {
     document.querySelector('.countries-list').style.display = 'block';
   }
   
+  hideList = () => {
+    document.querySelector('.countries-list').style.display = 'none';
+  }
+  
   updateList = () => {
     let filteredList = countriesList;
     const newInput = document.querySelector('.country-input').value.toLowerCase();
@@ -206,6 +210,7 @@ async function getCountriesList () {
 
   document.querySelector('.country-input').addEventListener('focus', showCountriesList);
   document.querySelector('.country-input').addEventListener('input', updateList);
+  document.querySelector('.country-input').addEventListener('blur', hideList);
 
 
 
