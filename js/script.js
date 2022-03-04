@@ -1,24 +1,24 @@
-navigator.geolocation.getCurrentPosition(success);
+// navigator.geolocation.getCurrentPosition(success);
 
-function success (pos) {
-  const crd = pos.coords;
-  console.log('current position: ', crd.latitude, crd.longitude);
+// function success (pos) {
+//   const crd = pos.coords;
+//   console.log('current position: ', crd.latitude, crd.longitude);
   
-  fetch(`https://google-maps-geocoding.p.rapidapi.com/geocode/json?latlng=${crd.latitude}-${crd.longitude}&language=en`, {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-host": "google-maps-geocoding.p.rapidapi.com",
-		"x-rapidapi-key": "d66ccf510amshbfd91efdd135737p100100jsnfa64f723ab11"
-	}
-})
-.then(response => {
-	console.log(response);
-})
-.catch(err => {
-	console.error(err);
-});
+//   fetch(`https://google-maps-geocoding.p.rapidapi.com/geocode/json?latlng=${crd.latitude}-${crd.longitude}&language=en`, {
+// 	"method": "GET",
+// 	"headers": {
+// 		"x-rapidapi-host": "google-maps-geocoding.p.rapidapi.com",
+// 		"x-rapidapi-key": "d66ccf510amshbfd91efdd135737p100100jsnfa64f723ab11"
+// 	}
+// })
+// .then(response => {
+// 	console.log(response);
+// })
+// .catch(err => {
+// 	console.error(err);
+// });
 
-};
+// };
 
 const country = 'germany';
 localStorage.setItem('country', JSON.stringify(country));
