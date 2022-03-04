@@ -18,6 +18,7 @@ body {
 
 ul {
   position: absolute;
+  z-index: 100;
   background-color: white;
   list-style: none;
   max-height: 200px;

@@ -165,22 +165,31 @@ async function getCountriesList () {
     // document.getElementById('country').innerHTML = newCountry;
     localStorage.setItem('country', JSON.stringify(newCountry));
     console.log('setting in storage', newCountry);
-    getCountry(newCountry, daysBack)
+    getCountry(newCountry, daysBack);
+    document.querySelector('.country-input').value = newCountry;
   };
 
-    const list = document.querySelector('.countries-list');
+  const list = document.querySelector('.countries-list');
   
-    countriesList.forEach(country => {
-    const countryName = document.createElement('li');
-    countryName.innerHTML = country;
-    list.appendChild(countryName);
-    // countryName.addEventListener('click', console.log(countryName.innerHTML, 'clicked'));
-    countryName.addEventListener('click', changeCountry);
+  countriesList.forEach(country => {
+  const countryName = document.createElement('li');
+  countryName.innerHTML = country;
+  list.appendChild(countryName);
+  // countryName.addEventListener('click', console.log(countryName.innerHTML, 'clicked'));
+  countryName.addEventListener('click', changeCountry);
   });
   
   showCountriesList = () => {
     document.querySelector('.country-input').value = null;
     document.querySelector('.countries-list').style.display = 'block';
+
+    countriesList.forEach(country => {
+      const countryName = document.createElement('li');
+      countryName.innerHTML = country;
+      list.appendChild(countryName);
+      // countryName.addEventListener('click', console.log(countryName.innerHTML, 'clicked'));
+      countryName.addEventListener('click', changeCountry);
+      });
   }
   
   updateList = () => {
@@ -191,7 +200,7 @@ async function getCountriesList () {
     document.querySelector('ul').innerHTML = '';
     // document.querySelector('.countries-list').style.display = 'block';
     
-    filteredList = countriesList.filter(country => country.includes(newInput));
+    filteredList = countriesList.filter(country => country.startsWith(newInput));
     
     filteredList.forEach(country => {
       const filteredCountry = document.createElement('li');
@@ -203,13 +212,6 @@ async function getCountriesList () {
     console.log('current list', filteredList);    
     // document.querySelector('.countries-list').innerText = filteredList;
   }
-
-  // hideList = () => {
-  //   setTimeout(
-  //     document.querySelector('.countries-list').style.display = 'none', 5000
-  //     // console.log('delay'), 5000
-  //   );
-  // }
   
   document.querySelector('.country-input').addEventListener('focus', showCountriesList);
   document.querySelector('.country-input').addEventListener('input', updateList);

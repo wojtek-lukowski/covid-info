@@ -15,19 +15,18 @@
 <body>
   <h1>Covid info</h1>
 
+  <div>Current country: <p class="country"></p>
+  </div>
+  <br>
+  <div>Daily cases:<p class="last-number"></p>
+  </div>
+  <div>Latest data:<p class="last-date"></p>
+  </div>
   <form autocomplete="off">
     <input class="country-input" type="text" value="" id="country" name="country" placeholder="Enter country">
     <button onclick="setState()" type="button">Go</button>
     <ul class="countries-list"></ul>
   </form>
-  <br>
-  <div>Current country: <p class="country"></p>
-  </div>
-  <br>
-  <div>Latest data:<p class="last-date"></p>
-    <div>Daily cases:<p class="last-number"></p>
-    </div>
-  </div>
   <br>
   <form action="">
     <label for="number-of-days">Number of days:</label>
