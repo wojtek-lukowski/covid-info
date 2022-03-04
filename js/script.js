@@ -30,7 +30,7 @@ document.querySelector('#number-of-days').value = daysBack;
 
 async function getCountry(country, daysBack) {
   daysBack = localStorage.getItem('days');
-  console.log('displaying for', country, daysBack);
+  // console.log('displaying for', country, daysBack);
   document.querySelector('.loading').style.display = "block";
   const api = `https://api.covid19api.com/total/country/${country}`;
   const data = await (await fetch(api)).json();
@@ -151,7 +151,7 @@ getCountriesList();
 setState = () => {
   // let countryInput = document.getElementById('country').value;
   let countryInput = JSON.parse(localStorage.getItem('country'));
-  console.log('country from local storage', country);
+  // console.log('country from local storage', country);
   if (!countryInput) {
     countryInput = country
   };
@@ -162,7 +162,7 @@ setState = () => {
   if (!numberInput) {
     numberInput = daysBack
   };
-  console.log('setState', countryInput, numberInput);
+  // console.log('setState', countryInput, numberInput);
   getCountry(countryInput, numberInput);
 }
 
@@ -176,10 +176,9 @@ async function getCountriesList () {
   changeCountry = (e) => {
     document.querySelector('.countries-list').style.display = 'none';
     const newCountry = e.target.innerText;
-    console.log('changing country to', newCountry);
-    // document.getElementById('country').innerHTML = newCountry;
+    // console.log('changing country to', newCountry);
     localStorage.setItem('country', JSON.stringify(newCountry));
-    console.log('setting in storage', newCountry);
+    // console.log('setting in storage', newCountry);
     getCountry(newCountry, daysBack);
     document.querySelector('.country-input').value = newCountry;
   };
@@ -224,8 +223,7 @@ async function getCountriesList () {
       filteredCountry.addEventListener('click', changeCountry);
     })
     
-    console.log('current list', filteredList);    
-    // document.querySelector('.countries-list').innerText = filteredList;
+    // console.log('current list', filteredList);    
   }
   
   document.querySelector('.country-input').addEventListener('focus', showCountriesList);
