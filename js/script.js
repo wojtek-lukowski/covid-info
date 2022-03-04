@@ -3,6 +3,24 @@
 // function success (pos) {
 //   const crd = pos.coords;
 //   console.log('current position: ', crd.latitude, crd.longitude);
+<<<<<<< HEAD
+=======
+  
+//   fetch(`https://google-maps-geocoding.p.rapidapi.com/geocode/json?latlng=${crd.latitude}-${crd.longitude}&language=en`, {
+// 	"method": "GET",
+// 	"headers": {
+// 		"x-rapidapi-host": "google-maps-geocoding.p.rapidapi.com",
+// 		"x-rapidapi-key": "d66ccf510amshbfd91efdd135737p100100jsnfa64f723ab11"
+// 	}
+// })
+// .then(response => {
+// 	console.log(response);
+// })
+// .catch(err => {
+// 	console.error(err);
+// });
+
+>>>>>>> parent of 1d4f144 (Delete js directory)
 // };
 
 const country = 'germany';
@@ -43,6 +61,7 @@ async function getCountry(country, daysBack) {
   }
   const header = ['Date', 'Daily Cases'];
   dailyCases.unshift(header);
+<<<<<<< HEAD
 
   //reformatting country name
   const arr = country.replaceAll('-', ' ').split(' ');
@@ -51,6 +70,9 @@ async function getCountry(country, daysBack) {
   }
   const country2 = arr.join(' ');
   document.querySelector('.country').innerHTML = country2;
+=======
+  document.querySelector('.country').innerHTML = country;
+>>>>>>> parent of 1d4f144 (Delete js directory)
 
   const lastEntry = dailyCases[dailyCases.length-1];
   const lastNumber = lastEntry[1];
