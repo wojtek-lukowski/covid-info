@@ -1,13 +1,16 @@
 // navigator.geolocation.getCurrentPosition(success);
-
 // function success (pos) {
 //   const crd = pos.coords;
 //   console.log('current position: ', crd.latitude, crd.longitude);
 // };
 
-const country = 'germany';
+
+//checking localStorage for the last country/days settings
+const country = JSON.parse(localStorage.getItem('country'));
+if (!country) {country = 'germany'};
 localStorage.setItem('country', JSON.stringify(country));
-const daysBack = 100;
+const daysBack = localStorage.getItem('days');
+if (!daysBack) {daysBack = 100};
 localStorage.setItem('days',daysBack);
 
 //number of days shown will be lower by 1
@@ -28,15 +31,18 @@ async function getCountry(country, daysBack) {
   // are calculated by sustracting the day before from the total (cummulative from day 1) value of
   // the previous day.
   const dailyCases = [];
-  const today = new Date()
+  const today = new Date();
+  
+  // let startingDate = new Date(today.toDateString());
   let startingDate = new Date(today);
+
   startingDate.setDate(startingDate.getDate() - daysBack + 1);
 
   for (let i = 0; i < cummulatedPeriod.length - 1; i++ ) {
     let newCases = cummulatedPeriod[i+1] - cummulatedPeriod[i];
     let dayBefore = new Date(startingDate);
     dayBefore.setDate(dayBefore.getDate() + i);
-    let day = dayBefore.toLocaleString();
+    let day = dayBefore.toLocaleDateString();
     // let day = dayBefore.getTime();
     let array = [day, newCases]
     dailyCases.push(array);
@@ -51,26 +57,36 @@ async function getCountry(country, daysBack) {
   }
   const country2 = arr.join(' ');
   document.querySelector('.country').innerHTML = country2;
+  // document.querySelector('#country').innerHTML = country2;
 
   const lastEntry = dailyCases[dailyCases.length-1];
   const lastNumber = lastEntry[1];
   const lastDate = lastEntry[0];
-  
-  document.querySelector('.last-date').innerHTML = lastDate;
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  document.querySelector('.last-date').innerHTML = yesterday.toLocaleDateString();
   document.querySelector('.last-number').innerHTML = lastNumber;
 
 //creating totals data for charts
 
 //total cases
   const totals = data.map(({Date, Confirmed}) => ({Date, Confirmed}));
+  const totals2 = totals.map((object => {
+    return { Date: new Date(object.Date).toLocaleDateString(), Confirmed: object.Confirmed}
+  }));
   const totalsHeader = ['Date', 'Total cases'];
-  const totalsArray = totals.map((object) => Object.values(object));
+  const totalsArray = totals2.map((object) => Object.values(object));
   totalsArray.unshift(totalsHeader);
 
 //total deaths
   const totalDeaths = data.map(({Date, Deaths}) => ({Date, Deaths}));
+  const totalDeaths2 = totalDeaths.map((object => {
+    return { Date: new Date(object.Date).toLocaleDateString(), Deaths: object.Deaths}
+  }));
   const totalDeathsHeader = ['Date', 'Total deaths'];
-  const totalDeathsArray = totalDeaths.map((object) => Object.values(object));
+  const totalDeathsArray = totalDeaths2.map((object) => Object.values(object));
   totalDeathsArray.unshift(totalDeathsHeader);
 
 //goggle charts -  total cases
@@ -83,7 +99,7 @@ function drawTotalsChart() {
   );
 
   var options = {
-    title: `${country} - total cases`,
+    title: `${country2} - total cases`,
     curveType: 'function',
     legend: { position: 'bottom' }
   };
@@ -103,7 +119,7 @@ function drawTotalsChart() {
    );
  
    var options = {
-     title: `${country} - total deaths`,
+     title: `${country2} - total deaths`,
      curveType: 'function',
      legend: { position: 'bottom' }
    };
@@ -123,7 +139,7 @@ function drawDailyChart() {
   );
 
   var options = {
-    title: `${country} - daily cases`,
+    title: `${country2} - daily cases, last ${daysBack} days`,
     curveType: 'function',
     legend: { position: 'bottom' }
   };
