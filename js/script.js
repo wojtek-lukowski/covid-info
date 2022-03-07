@@ -99,7 +99,7 @@ function drawTotalsChart() {
   );
 
   var options = {
-    title: `${country2} - total cases`,
+    title: `${country2} - total cases from day 0`,
     curveType: 'function',
     legend: { position: 'bottom' }
   };
@@ -119,7 +119,7 @@ function drawTotalsChart() {
    );
  
    var options = {
-     title: `${country2} - total deaths`,
+     title: `${country2} - total deaths from day 0`,
      curveType: 'function',
      legend: { position: 'bottom' }
    };

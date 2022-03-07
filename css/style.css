@@ -1,6 +1,6 @@
 :root {
   /* --background-color: #0B192E; */
-  --background-color: #0B192D;
+  --text-dark: #050293;
   --background-light: #12233F;
   /* --background-color: #020202; */
   --font-light: #CDD7F5;
@@ -16,6 +16,12 @@
   --ibm: 'IBM Plex Mono';
   --border-radius: 10px;
   --duration: .3s;
+
+  --content: 1280px;
+
+  --gradient: linear-gradient(90deg, #EE00C1 9.25%, #5D00FF 93.25%);
+  --gradient-blue: #5D00FF;
+  --gradient-pink: #EE00C1;
 
   --gap: 8px;
   --gap0-5: calc(var(--gap)*0.5);
@@ -35,16 +41,27 @@
 
 html {
   font-size: 62.5%;
+  color: var(--white);
 }
 
 body {
   padding: var(--gap3);
-  font-family: Manrope;
+  font-family: var(--manrope);
+}
+
+.container {
+  max-width: var(--content);
+  margin: auto;
 }
 
 h1 {
+  color: var(--text-dark);
   font-size: 3.2rem;
   margin-bottom: var(--gap4);
+}
+
+a {
+  text-decoration: none;
 }
 
 .label {
@@ -52,7 +69,7 @@ h1 {
 }
 
 .dashboard {
-  background-color: var(--font-light);
+  background-image: var(--gradient);
   padding: var(--gap2);
   border-radius: var(--border-radius);
 }
@@ -76,15 +93,42 @@ p {
 }
 
 button {
-  width: 10rem;
-  /* height: 48px; */
+  width: 15rem;
+  height: 3rem;
   margin: var(--gap2);
+  border: none;
+  border-radius: var(--border-radius);
+  border: 3px solid transparent;
+  background-color: var(--white);
+  color: var(--text-dark);
+  font-size: 1.6rem;
+}
+
+button:hover {
+  cursor: pointer;
+  color: var(--gradient-pink);
+  box-shadow: none;
+  transition-duration: var(--duration);
+}
+
+input {
+  border: none;
+  border-radius: var(--border-radius);
+  height: 3rem;
+  padding: 0 var(--gap);
+}
+
+label {
+  margin-right: var(--gap);
+}
+
+.country-input {
+  width: 20rem;
 }
 
 .loading {
   width: 7rem;
   height: 7rem;
-  /* display: none; */
   position: fixed;
   top: 50%;
   left: 50%;
@@ -92,7 +136,7 @@ button {
   animation-name: loading;
   animation-duration: 2s;
   animation-iteration-count: infinite;
-  opacity: .5;
+  /* opacity: .5; */
 }
 
 ul {
@@ -102,10 +146,11 @@ ul {
   list-style: none;
   max-height: 20rem;
   width: 20rem;
-  margin-top: 0;
+  margin-top: calc(var(--gap2) * -1);
   padding: 0 var(--gap3) var(--gap);
   overflow-y: scroll;
-  border: 1px solid var(--black);
+  border: 1px solid var(--text-dark);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
   border-top: none;
 }
 
@@ -117,11 +162,14 @@ li {
 li:hover {
   cursor: pointer;
   color: var(--white);
-  background-color: var(--black);
+  background-image: var(--gradient);
+  transition-duration: 0;
+
 }
 
 .countries-list {
   display: none;
+  color: var(--text-dark);
 }
 
 .charts {
@@ -135,8 +183,36 @@ li:hover {
   height: 50rem;
 } */
 
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.credit {
+  display: flex;
+  align-items: center;
+}
+
 footer p {
+  color: var(--text-dark);
   font-size: 1.2rem;
+}
+
+footer svg {
+  width: 2rem;
+  height: auto;
+  margin-left: var(--gap);
+}
+
+footer a {
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+footer a:hover {
+  text-decoration: underline;
+  transition-duration: var(--duration);
 }
 
 
