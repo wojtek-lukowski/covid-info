@@ -16,34 +16,38 @@
 <body>
   <h1>Covid info</h1>
 
-  <div>Current country: <p class="country"></p>
-  </div>
-  <br>
-  <div>Daily cases:<p class="last-number"></p>
-  </div>
-  <div>Latest data:<p class="last-date"></p>
-  </div>
-  <form autocomplete="off">
-    <input class="country-input" type="text" value="" id="country" name="country" placeholder="Enter country">
-    <button onclick="setState()" type="button">Go</button>
-    <ul class="countries-list"></ul>
-  </form>
-  <br>
-  <form action="">
-    <label for="number-of-days">Number of days:</label>
-    <input type="number" id="number-of-days" step="10" min="10" max="1000">
-    <button onclick="setState()" type="button">Go</button>
-  </form>
+  <div class="dashboard">
+    <div class="display-data">
+      <div class="label">Country<p class="country"></p>
+      </div>
+      <div class="label">Daily cases<p class="last-number"></p>
+      </div>
+      <div class="label">Date<p class="last-date"></p>
+      </div>
+    </div>
 
-  <div id="country-chart" style="width: 900px; height: 500px"></div>
-  <div id="country-totals" style="width: 900px; height: 500px"></div>
-  <div id="country-total-deaths" style="width: 900px; height: 500px"></div>
+    <div class="controls">
+      <form autocomplete="off">
+        <input class="country-input" type="text" value="" id="country" name="country" placeholder="Enter country">
+        <button onclick="setState()" type="button">Go</button>
+        <ul class="countries-list"></ul>
+      </form>
+
+      <form action="">
+        <label for="number-of-days">Number of days:</label>
+        <input type="number" id="number-of-days" step="10" min="10" max="1000">
+        <button onclick="setState()" type="button">Go</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="charts">
+    <div class="chart" id="country-chart" style="width: 900px; height: 500px"></div>
+    <div class="chart" id="country-totals" style="width: 900px; height: 500px"></div>
+    <div class="chart" id="country-total-deaths" style="width: 900px; height: 500px"></div>
+  </div>
 
   <div class="summary"></div>
-
-  <!-- <div class="country-data"></div>
-  <br>
-  <div class="countries-list"></div> -->
 
   <svg class="loading" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path

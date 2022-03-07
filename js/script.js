@@ -6,10 +6,10 @@
 
 
 //checking localStorage for the last country/days settings
-const country = JSON.parse(localStorage.getItem('country'));
+let country = JSON.parse(localStorage.getItem('country'));
 if (!country) {country = 'germany'};
 localStorage.setItem('country', JSON.stringify(country));
-const daysBack = localStorage.getItem('days');
+let daysBack = localStorage.getItem('days');
 if (!daysBack) {daysBack = 100};
 localStorage.setItem('days',daysBack);
 
@@ -67,7 +67,7 @@ async function getCountry(country, daysBack) {
   yesterday.setDate(yesterday.getDate() - 1);
 
   document.querySelector('.last-date').innerHTML = yesterday.toLocaleDateString();
-  document.querySelector('.last-number').innerHTML = lastNumber;
+  document.querySelector('.last-number').innerHTML = lastNumber.toLocaleString();
 
 //creating totals data for charts
 
