@@ -18,6 +18,7 @@ document.querySelector('#number-of-days').value = daysBack;
 
 async function getCountry(country, daysBack) {
   daysBack = localStorage.getItem('days');
+  document.querySelector('.charts').style.display = 'flex';
   // console.log('displaying for', country, daysBack);
   document.querySelector('.loading').style.display = "block";
   const api = `https://api.covid19api.com/total/country/${country}`;
@@ -67,7 +68,10 @@ async function getCountry(country, daysBack) {
   yesterday.setDate(yesterday.getDate() - 1);
 
   document.querySelector('.last-date').innerHTML = yesterday.toLocaleDateString();
-  if (lastNumber== "Daily Cases") {lastNumber = 'No data'};
+  if (lastNumber== "Daily Cases") {
+    lastNumber = 'No data';
+    document.querySelector('.charts').style.display = 'none';
+  };
   if (lastNumber < 0) {alert('Sorry, the last daily cases are below 0 - the data may be not updated or the reporting system has been changed.')};
   document.querySelector('.last-number').innerHTML = lastNumber.toLocaleString();
 

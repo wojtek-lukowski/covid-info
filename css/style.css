@@ -20,6 +20,7 @@
   --content: 1280px;
 
   --gradient: linear-gradient(90deg, #EE00C1 9.25%, #5D00FF 93.25%);
+  --gradient-2: linear-gradient(145deg, #EE00C1 9.25%, #5D00FF 93.25%);
   --gradient-blue: #5D00FF;
   --gradient-pink: #EE00C1;
 
@@ -69,11 +70,18 @@ a {
 }
 
 .dashboard {
+  width: 100%;
   background-image: var(--gradient);
   padding: var(--gap2);
   border-radius: var(--border-radius);
   position: relative;
 }
+
+@media only screen and (max-width: 500px) {
+  .dashboard {
+    background-image: var(--gradient-2);
+  }
+} 
 
 .dashboard::after {
   content: "";
@@ -102,8 +110,10 @@ a {
 .display-data,
 .controls {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
+  column-gap: var(--gap2);
 }
 
 p {
@@ -118,8 +128,12 @@ p {
   font-size: 1.6rem;
 }
 
+form {
+  margin: var(--gap) 0;
+}
+
 button {
-  width: 15rem;
+  width: 5rem;
   height: 3rem;
   margin: var(--gap2);
   border: none;
@@ -201,21 +215,38 @@ li:hover {
 
 .charts {
   display: flex;
+  /* display: none; */
   flex-wrap: wrap;
   justify-content: center;
-
-  margin-top: 30px;
+  margin: var(--gap) auto;
+  flex: 1;
 }
 
-/* .chart {
-  width: 100%;
+.chart {
+  width: 90rem;
+  width: 90%;
   height: 50rem;
-} */
+  margin: auto;
+}
 
 footer {
   display: flex;
+  margin-top: var(--gap5);
   align-items: center;
   justify-content: space-between;
+  position: relative;
+}
+
+footer::before {
+  content: "";
+  width: 100%;
+  height: .5px;
+  background-image: var(--gradient);
+  position: absolute;
+  top: -10px;
+  left: 0;
+  margin-bottom: var(--gap0-5);
+  border-radius: var(--border-radius);
 }
 
 .credit {
