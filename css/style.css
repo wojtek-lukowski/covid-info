@@ -237,6 +237,12 @@ li:hover {
   margin: auto;
 }
 
+@media only screen and (max-width: 500px) {
+  .chart {
+    width: 100%;
+  }
+}
+
 footer {
   display: flex;
   margin-top: var(--gap5);
