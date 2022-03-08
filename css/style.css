@@ -72,6 +72,31 @@ a {
   background-image: var(--gradient);
   padding: var(--gap2);
   border-radius: var(--border-radius);
+  position: relative;
+}
+
+.dashboard::after {
+  content: "";
+  width: 99%;
+  height: 10px;
+  background-image: var(--gradient);
+  position: absolute;
+  bottom: -5px;
+  right: 0;
+  filter: blur(4px);
+  opacity: .5;
+}
+
+.dashboard::before {
+  content: "";
+  width: 5px;
+  height: 90%;
+  background-color: var(--gradient-blue);
+  position: absolute;
+  bottom: 0;
+  right: -5px;
+  filter: blur(4px);
+  opacity: .5;
 }
 
 .display-data,
@@ -178,6 +203,8 @@ li:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
+  margin-top: 30px;
 }
 
 /* .chart {
