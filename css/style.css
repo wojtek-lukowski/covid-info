@@ -198,6 +198,14 @@ ul {
 li {
   /* display: inline; */
   margin-right: 1rem;
+  padding: var(--gap0-5) 0;
+
+}
+
+@media only screen and (max-width: 500px) {
+  li {
+    padding: var(--gap1-5) 0;
+  }
 }
 
 li:hover {
