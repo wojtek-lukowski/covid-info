@@ -78,6 +78,7 @@ a {
 .controls {
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 p {
@@ -116,6 +117,7 @@ input {
   border-radius: var(--border-radius);
   height: 3rem;
   padding: 0 var(--gap);
+  color: var(--text-dark);
 }
 
 label {
@@ -146,7 +148,7 @@ ul {
   list-style: none;
   max-height: 20rem;
   width: 20rem;
-  margin-top: calc(var(--gap2) * -1);
+  margin-top: calc((var(--gap0-5) * -1) + 5px);
   padding: 0 var(--gap3) var(--gap);
   overflow-y: scroll;
   border: 1px solid var(--text-dark);
