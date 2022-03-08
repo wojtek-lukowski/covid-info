@@ -60,13 +60,15 @@ async function getCountry(country, daysBack) {
   // document.querySelector('#country').innerHTML = country2;
 
   const lastEntry = dailyCases[dailyCases.length-1];
-  const lastNumber = lastEntry[1];
+  let lastNumber = lastEntry[1];
   const lastDate = lastEntry[0];
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
 
   document.querySelector('.last-date').innerHTML = yesterday.toLocaleDateString();
+  if (lastNumber== "Daily Cases") {lastNumber = 'No data'};
+  if (lastNumber < 0) {alert('Sorry, the last daily cases are below 0 - the data may be not updated or the reporting system has been changed.')};
   document.querySelector('.last-number').innerHTML = lastNumber.toLocaleString();
 
 //creating totals data for charts
