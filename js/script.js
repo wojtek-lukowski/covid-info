@@ -164,7 +164,7 @@ getCountriesList();
 
 setState = () => {
   // let countryInput = document.getElementById('country').value;
-  let countryInput = JSON.parse(localStorage.getItem('country'));
+  let countryInput = JSON.parse(localStorage.getItem('covid-country'));
   // console.log('country from local storage', country);
   if (!countryInput) {
     countryInput = country
