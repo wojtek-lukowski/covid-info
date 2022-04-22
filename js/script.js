@@ -6,9 +6,9 @@
 
 
 //checking localStorage for the last country/days settings
-let country = JSON.parse(localStorage.getItem('country'));
+let country = JSON.parse(localStorage.getItem('covid-country'));
 if (!country) {country = 'germany'};
-localStorage.setItem('country', JSON.stringify(country));
+localStorage.setItem('covid-country', JSON.stringify(country));
 let daysBack = localStorage.getItem('days');
 if (!daysBack) {daysBack = 100};
 localStorage.setItem('days',daysBack);
@@ -72,7 +72,7 @@ async function getCountry(country, daysBack) {
     lastNumber = 'No data';
     document.querySelector('.charts').style.display = 'none';
   };
-  if (lastNumber < 0) {alert('Sorry, the last daily cases are below 0 - the data may be not updated or the reporting system has been changed.')};
+  if (lastNumber < 0) {alert('The last daily cases are below 0 - the data may be not updated or the reporting system has been changed.')};
   document.querySelector('.last-number').innerHTML = lastNumber.toLocaleString();
 
 //creating totals data for charts
@@ -191,7 +191,7 @@ async function getCountriesList () {
     document.querySelector('.countries-list').style.display = 'none';
     const newCountry = e.target.innerText;
     // console.log('changing country to', newCountry);
-    localStorage.setItem('country', JSON.stringify(newCountry));
+    localStorage.setItem('covid-country', JSON.stringify(newCountry));
     // console.log('setting in storage', newCountry);
     getCountry(newCountry, daysBack);
     document.querySelector('.country-input').value = newCountry;
